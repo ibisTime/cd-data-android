@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <RadioGroup
+        android:clickable="false"
+        android:id="@+id/radiogroup"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_main_tab_1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="数据时代"
+            android:button="@null"
+            android:drawablePadding="7dp"
+            android:drawableTop="@drawable/main_buttom_tab_1"
+            android:gravity="center"
+            android:textColor="@drawable/tab_txtcolor"
+            android:textSize="12sp"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radio_main_tab_2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="关于我们"
+            android:button="@null"
+            android:drawableTop="@drawable/main_buttom_tab_2"
+            android:gravity="center"
+            android:drawablePadding="5dp"
+            android:textColor="@drawable/tab_txtcolor"
+            android:textSize="12sp"
+            android:checked="false" />
+
+
+    </RadioGroup>
+</LinearLayout>
+</layout>
