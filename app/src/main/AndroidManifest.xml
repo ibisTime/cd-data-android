@@ -13,11 +13,16 @@
     <!--用于写入缓存数据到扩展存储卡-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -73,6 +78,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
+        <!--欺诈关注清单-->
+        <activity android:name=".models.certesults.CertiResultsByNameAndIdCardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
 
         <!--芝麻认证-->
         <activity
@@ -101,7 +111,9 @@
         <activity android:name="com.megvii.zhimasdk.MGLivenessDetectActivity" />
         <activity android:name="com.megvii.zhimasdk.MGLoadActivity" />
         <activity android:name="com.megvii.zhimasdk.MGWebViewActivity" />
-
+        <activity
+            android:name="com.moxie.client.MainActivity">
+        </activity>
     </application>
 
 </manifest>

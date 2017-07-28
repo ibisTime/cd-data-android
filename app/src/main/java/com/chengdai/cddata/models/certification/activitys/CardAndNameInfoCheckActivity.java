@@ -10,6 +10,7 @@ import android.view.View;
 import com.chengdai.cddata.R;
 import com.chengdai.cddata.base.AbsBaseActivity;
 import com.chengdai.cddata.databinding.ActivityCardandnameInfoCheckBinding;
+import com.chengdai.cddata.models.certesults.CertiResultsByNameAndIdCardActivity;
 import com.chengdai.cddata.models.common.models.IsSuccessModes;
 import com.chengdai.cddata.widget.configs.MyConfig;
 import com.chengdai.cddata.widget.nets.BaseResponseModelCallBack;
@@ -98,12 +99,12 @@ public class CardAndNameInfoCheckActivity extends AbsBaseActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                 showSimpleWran(SucMessage);
-            }
-
-            @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-
+                if(data.isSuccess()){
+                    showSimpleWran("认证成功");
+                }else{
+                    showSimpleWran("认证失败");
+                }
+//                CertiResultsByNameAndIdCardActivity.open(CardAndNameInfoCheckActivity.this,data.isSuccess(), mBinding.editName.getText().toString(), mBinding.editCardNumber.getText().toString(),"");
             }
 
             @Override

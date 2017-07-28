@@ -167,7 +167,9 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
      * @param errorCode
      * @param errorMessage
      */
-    protected abstract void onFailure(int errorCode, String errorMessage);
+    private   void onFailure(int errorCode, String errorMessage){
+        ToastUtil.show(context,errorMessage);
+    }
 
     /**
      * 请求成功 但是服务器状态错误  如 被迫下线

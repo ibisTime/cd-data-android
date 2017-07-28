@@ -11,7 +11,7 @@ import android.view.MotionEvent;
  */
 public class MyViewpager extends ViewPager {
 
-    private boolean isPagingEnabled = true;
+    private boolean isPagingEnabled = false;
 
     public MyViewpager(Context context) {
         super(context);

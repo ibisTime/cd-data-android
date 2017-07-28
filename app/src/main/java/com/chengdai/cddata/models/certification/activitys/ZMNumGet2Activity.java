@@ -69,10 +69,6 @@ public class ZMNumGet2Activity extends BasePermissionsCheckActivity{
                 }
             }
 
-            @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-                showSimpleWran(errorMessage);
-            }
 
             @Override
             protected void onNull() {

@@ -135,10 +135,6 @@ public class ZMNumGetActivity extends AbsBaseActivity{
 
             }
 
-            @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-                showSimpleWran(errorMessage);
-            }
 
             @Override
             protected void onNull() {
@@ -177,10 +173,6 @@ public class ZMNumGetActivity extends AbsBaseActivity{
                     }
             }
 
-            @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-                showSimpleWran(errorMessage);
-            }
 
             @Override
             protected void onNull() {
@@ -215,10 +207,6 @@ public class ZMNumGetActivity extends AbsBaseActivity{
 
             }
 
-            @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-                showSimpleWran(errorMessage);
-            }
 
             @Override
             protected void onNull() {

@@ -132,10 +132,6 @@ public class ZMCertificationActivity extends AbsBaseActivity implements ZMCertif
                 }
             }
 
-            @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-                showSimpleWran(errorMessage);
-            }
 
             @Override
             protected void onNull() {
@@ -261,14 +257,10 @@ public class ZMCertificationActivity extends AbsBaseActivity implements ZMCertif
             }
 
             @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-                showSimpleWran(errorMessage);
-            }
-
-            @Override
             protected void onNull() {
 
             }
+
 
             @Override
             protected void onFinish() {

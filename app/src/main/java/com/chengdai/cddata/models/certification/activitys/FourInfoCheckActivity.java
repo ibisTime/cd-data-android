@@ -97,7 +97,7 @@ public class FourInfoCheckActivity extends AbsBaseActivity {
         map.put("idNo", mBinding.editCardNumber.getText().toString());
         map.put("realName", mBinding.editName.getText().toString());
         map.put("systemCode",MyConfig.SYSTEMCODE);
-        map.put("userId", "U1234567890");
+        map.put("userId", "U1234567899");
         map.put("bindMobile",mBinding.editPhoneNumber.getText().toString());
         map.put("cardNo",mBinding.editBankNumber.getText().toString());
 
@@ -108,11 +108,6 @@ public class FourInfoCheckActivity extends AbsBaseActivity {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                  showSimpleWran(SucMessage);
-            }
-
-            @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-
             }
 
             @Override

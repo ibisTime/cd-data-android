@@ -86,11 +86,6 @@ public class FraudLookListActivity extends BaseIMEIPermissionsActivity{
             }
 
             @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-
-            }
-
-            @Override
             protected void onNull() {
 
             }

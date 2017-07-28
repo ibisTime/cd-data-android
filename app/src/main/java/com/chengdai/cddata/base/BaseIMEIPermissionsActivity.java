@@ -76,7 +76,6 @@ public abstract class BaseIMEIPermissionsActivity extends AbsBaseActivity{
             cityPicker();
         });
 
-
         mbinding.btnSure.setOnClickListener(v -> {
 
             if(TextUtils.isEmpty(mbinding.edtName.getText().toString())){

@@ -84,10 +84,6 @@ public class GetFraudNumActivity extends BaseIMEIPermissionsActivity{
                 showSimpleWran("欺诈评分"+data.getScore());
             }
 
-            @Override
-            protected void onFailure(int errorCode, String errorMessage) {
-
-            }
 
             @Override
             protected void onNull() {
