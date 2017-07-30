@@ -99,12 +99,12 @@ public class CardAndNameInfoCheckActivity extends AbsBaseActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                if(data.isSuccess()){
+   /*             if(data.isSuccess()){
                     showSimpleWran("认证成功");
                 }else{
                     showSimpleWran("认证失败");
-                }
-//                CertiResultsByNameAndIdCardActivity.open(CardAndNameInfoCheckActivity.this,data.isSuccess(), mBinding.editName.getText().toString(), mBinding.editCardNumber.getText().toString(),"");
+                }*/
+                CertiResultsByNameAndIdCardActivity.open(CardAndNameInfoCheckActivity.this,data.isSuccess(), mBinding.editName.getText().toString(), mBinding.editCardNumber.getText().toString(),"");
             }
 
             @Override

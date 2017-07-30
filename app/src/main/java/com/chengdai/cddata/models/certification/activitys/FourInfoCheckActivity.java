@@ -11,6 +11,7 @@ import com.chengdai.cddata.R;
 import com.chengdai.cddata.base.AbsBaseActivity;
 import com.chengdai.cddata.databinding.ActivityCardandnameInfoCheckBinding;
 import com.chengdai.cddata.databinding.ActivityFourInfoCheckBinding;
+import com.chengdai.cddata.models.certesults.CertiResultsByFourActivity;
 import com.chengdai.cddata.models.common.models.IsSuccessModes;
 import com.chengdai.cddata.widget.configs.MyConfig;
 import com.chengdai.cddata.widget.nets.BaseResponseModelCallBack;
@@ -60,10 +61,7 @@ public class FourInfoCheckActivity extends AbsBaseActivity {
 
         //
         mBinding.butSure.setOnClickListener(v -> {
-   /*         if(TextUtils.isEmpty(mBinding.editPhoneNumber.getText().toString())){
-                showToast("请填写手机号");
-                return;
-            }*/
+
             if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
                 showToast("请填写姓名");
                 return;
@@ -74,12 +72,16 @@ public class FourInfoCheckActivity extends AbsBaseActivity {
                 return;
             }
 
-            if (TextUtils.isEmpty(mBinding.editBankNumber.getText().toString())) {
-
-                showToast("请填写");
+            if(TextUtils.isEmpty(mBinding.editPhoneNumber.getText().toString())){
+                showToast("请填写手机号");
                 return;
             }
 
+            if (TextUtils.isEmpty(mBinding.editBankNumber.getText().toString())) {
+
+                showToast("请填写银行卡号");
+                return;
+            }
             checkRequest();
 
         });
@@ -96,10 +98,10 @@ public class FourInfoCheckActivity extends AbsBaseActivity {
         map.put("idKind", "1");
         map.put("idNo", mBinding.editCardNumber.getText().toString());
         map.put("realName", mBinding.editName.getText().toString());
-        map.put("systemCode",MyConfig.SYSTEMCODE);
+        map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("userId", "U1234567899");
-        map.put("bindMobile",mBinding.editPhoneNumber.getText().toString());
-        map.put("cardNo",mBinding.editBankNumber.getText().toString());
+        map.put("bindMobile", mBinding.editPhoneNumber.getText().toString());
+        map.put("cardNo", mBinding.editBankNumber.getText().toString());
 
         showLoadingDialog();
         Call call = RetrofitUtils.getLoaderServer().idCardAndNameCheck("798006", StringUtils.getJsonToString(map));
@@ -107,7 +109,11 @@ public class FourInfoCheckActivity extends AbsBaseActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                 showSimpleWran(SucMessage);
+
+                CertiResultsByFourActivity.open(FourInfoCheckActivity.this, data.isSuccess(), mBinding.editName.getText().toString()
+                , mBinding.editCardNumber.getText().toString(), mBinding.editPhoneNumber.getText().toString(), mBinding.editBankNumber.getText().toString());
+
+//                 showSimpleWran(SucMessage);
             }
 
             @Override

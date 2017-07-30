@@ -10,15 +10,15 @@ import android.view.View;
 import com.chengdai.cddata.R;
 import com.chengdai.cddata.base.AbsBaseActivity;
 import com.chengdai.cddata.databinding.ActivityCertResultsBinding;
-import com.chengdai.cddata.models.certification.activitys.FourInfoCheckActivity;
+import com.chengdai.cddata.databinding.ActivityQizhapingfenCertResultsBinding;
 
-/**二要素认证结果 （姓名身份证）
+/**申请欺诈评分
  * Created by 李先俊 on 2017/7/28.
  */
 
-public class CertiResultsByNameAndIdCardActivity extends AbsBaseActivity{
+public class CertiResultsByQizhaPingFenActivity extends AbsBaseActivity{
 
-    private ActivityCertResultsBinding mBinding;
+    private ActivityQizhapingfenCertResultsBinding mBinding;
 
     /**
      * 打开当前页面
@@ -29,7 +29,7 @@ public class CertiResultsByNameAndIdCardActivity extends AbsBaseActivity{
         if (context == null) {
             return;
         }
-        Intent intent = new Intent(context, CertiResultsByNameAndIdCardActivity.class);
+        Intent intent = new Intent(context, CertiResultsByQizhaPingFenActivity.class);
 
           intent.putExtra("issuccessful",issuccessful);
           intent.putExtra("name",name);
@@ -42,7 +42,7 @@ public class CertiResultsByNameAndIdCardActivity extends AbsBaseActivity{
 
     @Override
     public View addMainView() {
-        mBinding= DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_cert_results,null,false);
+        mBinding= DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_qizhapingfen_cert_results,null,false);
         return mBinding.getRoot();
     }
 
@@ -65,11 +65,8 @@ public class CertiResultsByNameAndIdCardActivity extends AbsBaseActivity{
 
             mBinding.tvName.setText(getIntent().getStringExtra("name"));
             mBinding.tvIdcard.setText(getIntent().getStringExtra("idCard"));
-
-            if(!TextUtils.isEmpty(getIntent().getStringExtra("zmScore"))){
-                mBinding.layoutZm.setVisibility(View.VISIBLE);
-                mBinding.tvZmsource.setText(getIntent().getStringExtra("zmScore"));
-            }
+            mBinding.layoutZm.setVisibility(View.VISIBLE);
+            mBinding.tvZmsource.setText(getIntent().getStringExtra("zmScore"));
 
         }
 

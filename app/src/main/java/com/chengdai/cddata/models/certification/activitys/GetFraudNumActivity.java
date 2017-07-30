@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.chengdai.cddata.R;
 import com.chengdai.cddata.base.BaseIMEIPermissionsActivity;
+import com.chengdai.cddata.models.certesults.CertiResultsByNameAndIdCardActivity;
+import com.chengdai.cddata.models.certesults.CertiResultsByQizhaPingFenActivity;
 import com.chengdai.cddata.models.certification.models.GetFraudNumModel;
 import com.chengdai.cddata.widget.configs.MyConfig;
 import com.chengdai.cddata.widget.nets.BaseResponseModelCallBack;
@@ -81,7 +83,10 @@ public class GetFraudNumActivity extends BaseIMEIPermissionsActivity{
         call.enqueue(new BaseResponseModelCallBack<GetFraudNumModel>(this) {
             @Override
             protected void onSuccess(GetFraudNumModel data, String SucMessage) {
-                showSimpleWran("欺诈评分"+data.getScore());
+//                showSimpleWran("欺诈评分"+data.getScore());
+
+                CertiResultsByQizhaPingFenActivity.open(GetFraudNumActivity.this,true,mbinding.edtName.getText().toString(),mbinding.editIdcard.getText().toString(),data.getScore());
+
             }
 
 

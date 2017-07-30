@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.chengdai.cddata.R;
 import com.chengdai.cddata.base.AbsBaseActivity;
 import com.chengdai.cddata.databinding.ActivityCardandnameInfoCheckBinding;
+import com.chengdai.cddata.models.certesults.CertiResultsByNameAndIdCardActivity;
 import com.chengdai.cddata.models.certification.models.ZMCertFirstStepModel;
 import com.chengdai.cddata.models.common.models.IsSuccessModes;
 import com.chengdai.cddata.widget.configs.MyConfig;
@@ -248,11 +249,16 @@ public class ZMCertificationActivity extends AbsBaseActivity implements ZMCertif
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
+
+                CertiResultsByNameAndIdCardActivity.open(ZMCertificationActivity.this,data.isSuccess(),mBinding.editName.getText().toString()
+                        ,mBinding.editCardNumber.getText().toString(),"");
+/*
                 if (data.isSuccess()) {
                     showSimpleWran("认证成功");
                 }else{
                     showSimpleWran("认证失败");
                 }
+*/
 
             }
 

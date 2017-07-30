@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chengdai.cddata.base.BaseIMEIPermissionsActivity;
+import com.chengdai.cddata.models.certesults.CertiResultsByDetailsInfoActivity;
 import com.chengdai.cddata.models.certification.models.FraudNumCheckModel;
 import com.chengdai.cddata.widget.configs.MyConfig;
 import com.chengdai.cddata.widget.nets.BaseResponseModelCallBack;
@@ -73,9 +74,12 @@ public class FraudNumCheckActivity extends BaseIMEIPermissionsActivity{
         call.enqueue(new BaseResponseModelCallBack<FraudNumCheckModel>(this) {
             @Override
             protected void onSuccess(FraudNumCheckModel data, String SucMessage) {
-                if(data.getVerifyCodeList()!=null){
+
+                CertiResultsByDetailsInfoActivity.open(FraudNumCheckActivity.this,true,data);
+
+              /*  if(data.getVerifyCodeList()!=null){
                     showSimpleWran("列表"+data.getVerifyCodeList().size());
-                }
+                }*/
             }
 
 

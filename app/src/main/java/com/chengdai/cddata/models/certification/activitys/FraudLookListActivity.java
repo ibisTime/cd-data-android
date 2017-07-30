@@ -12,6 +12,7 @@ import com.chengdai.cddata.R;
 import com.chengdai.cddata.base.AbsBaseActivity;
 import com.chengdai.cddata.base.BaseIMEIPermissionsActivity;
 import com.chengdai.cddata.databinding.ActivityQizhapingfenBinding;
+import com.chengdai.cddata.models.certesults.CertiResultsByDetailsInfo2Activity;
 import com.chengdai.cddata.models.certification.models.FraudLookModel;
 import com.chengdai.cddata.models.certification.models.FraudNumCheckModel;
 import com.chengdai.cddata.widget.configs.MyConfig;
@@ -79,7 +80,10 @@ public class FraudLookListActivity extends BaseIMEIPermissionsActivity{
         call.enqueue(new BaseResponseModelCallBack<FraudLookModel>(this) {
             @Override
             protected void onSuccess(FraudLookModel data, String SucMessage) {
-                showSimpleWran("是否欺诈关注"+data.getHit());
+
+                CertiResultsByDetailsInfo2Activity.open(FraudLookListActivity.this,true,data);
+
+//                showSimpleWran("是否欺诈关注"+data.getHit());
                /* if(data.getRiskCodeList()!=null){
                     showSimpleWran("列表"+data.getRiskCodeList().size());
                 }*/

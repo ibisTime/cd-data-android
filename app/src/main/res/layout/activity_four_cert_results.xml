@@ -12,33 +12,6 @@
             android:id="@+id/tipslayout"
             layout="@layout/layout_cert_tips"/>
 
-        <LinearLayout
-            android:id="@+id/layout_zm"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="芝麻信用评分" />
-
-            <TextView
-                tools:text="sdfsdf"
-                android:id="@+id/tv_zmsource"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
-                />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_marginTop="15dp"
@@ -94,6 +67,63 @@
 
         </LinearLayout>
 
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layout_phone"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="手机号码" />
+
+            <TextView
+                tools:text="sdfsdf"
+                android:id="@+id/tv_phonenum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layout_bank_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="银行卡号" />
+
+            <TextView
+                android:id="@+id/tv_bank_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                tools:text="sdfsdf" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

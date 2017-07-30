@@ -54,21 +54,21 @@ public class FirstDataFragment extends BaseFragment {
 
     private void initListener() {
         //二要素实名认证
-        mBinding.layoutShiming.setOnClickListener(v -> {
+        mBinding.layoutShiming.setOnClickListener(v -> { //完成
             CardAndNameInfoCheckActivity.open(mActivity);
         });
         //四要素实名认证
-        mBinding.layoutFourCheck.setOnClickListener(v -> {
+        mBinding.layoutFourCheck.setOnClickListener(v -> {//完成
             FourInfoCheckActivity.open(mActivity);
         });
 
         //芝麻认证
-        mBinding.layoutZmcertification.setOnClickListener(v -> {
+        mBinding.layoutZmcertification.setOnClickListener(v -> {//完成
             ZMCertificationActivity.open(mActivity);
         });
 
         //芝麻分获取
-        mBinding.layoutZmnumGet.setOnClickListener(v -> {
+        mBinding.layoutZmnumGet.setOnClickListener(v -> { //完成
 //            ZMNumGetActivity.open(mActivity);
             ZMNumGet2Activity.open(mActivity);
         });

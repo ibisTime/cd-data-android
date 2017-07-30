@@ -78,8 +78,30 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
-        <!--欺诈关注清单-->
+        <!--认证结果 二要素-->
         <activity android:name=".models.certesults.CertiResultsByNameAndIdCardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <!--认证结果 四要素-->
+        <activity android:name=".models.certesults.CertiResultsByFourActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+  <!--认证结果 申请欺诈评分-->
+        <activity android:name=".models.certesults.CertiResultsByQizhaPingFenActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+
+        <!--认证结果 详细信息-->
+        <activity android:name=".models.certesults.CertiResultsByDetailsInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+
+        <!--认证结果 详细信息-->
+        <activity android:name=".models.certesults.CertiResultsByDetailsInfo2Activity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />

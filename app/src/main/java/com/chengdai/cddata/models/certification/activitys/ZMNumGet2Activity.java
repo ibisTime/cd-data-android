@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chengdai.cddata.base.BasePermissionsCheckActivity;
+import com.chengdai.cddata.models.certesults.CertiResultsByNameAndIdCardActivity;
 import com.chengdai.cddata.models.certification.models.UserQueryInfoModel;
 import com.chengdai.cddata.widget.configs.MyConfig;
 import com.chengdai.cddata.widget.nets.BaseResponseModelCallBack;
@@ -63,7 +64,11 @@ public class ZMNumGet2Activity extends BasePermissionsCheckActivity{
             @Override
             protected void onSuccess(UserQueryInfoModel data, String SucMessage) {
                 if(data.isAuthorized()){
-                    showSimpleWran("芝麻信用分是："+data.getZmScore()+"分");
+//                    showSimpleWran("芝麻信用分是："+data.getZmScore()+"分");
+
+                    CertiResultsByNameAndIdCardActivity.open(ZMNumGet2Activity.this,true,mBinding.editName.getText().toString(),
+                            mBinding.editCardNumber.getText().toString(),data.getZmScore());
+
                 }else{
                     creditApp.authenticate(ZMNumGet2Activity.this, data.getAppId(), null,data.getParam(), data.getSignature(), null,ZMNumGet2Activity.this);
                 }
