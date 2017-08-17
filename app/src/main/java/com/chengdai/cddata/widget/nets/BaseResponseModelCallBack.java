@@ -26,8 +26,8 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
 
     public static final String REQUESTOK = "0";   //请求后台成功
 
-    public static final String REQUESTFECODE3= "3";
-    public static final String REQUESTFECODE2= "2";
+    public static final String REQUESTFECODE3 = "3";
+    public static final String REQUESTFECODE2 = "2";
 
     public static final String REQUESTFECODE4 = "4";//重新登录
 
@@ -69,13 +69,13 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
                 checkState(t);      //根据返回错误的状态码实现相应的操作
             } catch (Exception e) {
                 if (LogUtil.isLog) {
-                    onFailure(NETERRORCODE4, "出现未知错误" + e.toString());
+                    onReqFailure(NETERRORCODE4, "出现未知错误" + e.toString());
                 }
-                onFailure(NETERRORCODE4, "出现未知错误");
+                onReqFailure(NETERRORCODE4, "出现未知错误");
             }
 
         } else {
-            onFailure(NETERRORCODE4, "网络请求失败");
+            onReqFailure(NETERRORCODE4, "网络请求失败");
         }
 
         this.context = null;
@@ -117,7 +117,7 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
             errorString += t.toString();
         }
 
-        onFailure(errorCode, errorString);
+        onReqFailure(errorCode, errorString);
         this.context = null;
     }
 
@@ -134,21 +134,22 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
 
             T t = (T) baseModelNew.getData();
 
-            if(t==null){
+            if (t == null) {
                 onFinish();
                 onNull();
-                this.context=null;
+                this.context = null;
                 return;
             }
 
             onSuccess(t, baseModelNew.getErrorInfo());
 
-        } else if ( REQUESTFECODE4.equals(state)) {
-            onOKFailure(baseModelNew.getErrorInfo());
-        } else if(REQUESTFECODE2.equals(state)|| REQUESTFECODE3.equals(state) || REQUESTFECODE9.equals(state)){
-            ToastUtil.show(context,baseModelNew.getErrorInfo());
+        } else if (REQUESTFECODE4.equals(state)) {
+            OnOkFailure.StartDoFailure(context, baseModelNew.getErrorInfo());
+        } else if (REQUESTFECODE2.equals(state) || REQUESTFECODE3.equals(state) || REQUESTFECODE9.equals(state)) {
+
+            onBuinessFailure(state, baseModelNew.getErrorInfo());
         } else {
-            onFailure(NETERRORCODE0, baseModelNew.getErrorInfo());
+            onReqFailure(NETERRORCODE0, baseModelNew.getErrorInfo());
         }
 
     }
@@ -167,17 +168,17 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
      * @param errorCode
      * @param errorMessage
      */
-    private   void onFailure(int errorCode, String errorMessage){
-        ToastUtil.show(context,errorMessage);
+    protected void onReqFailure(int errorCode, String errorMessage) {
+        ToastUtil.show(context, errorMessage);
     }
 
     /**
-     * 请求成功 但是服务器状态错误  如 被迫下线
+     * 业务逻辑错误
      *
      * @param error
      */
-    protected void onOKFailure(String error) {
-        OnOkFailure.StartDoFailure(context, error);
+    protected void onBuinessFailure(String code, String error) {
+        ToastUtil.show(context, error);
     }
 
 
@@ -194,8 +195,8 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
     /**
      * 无网络
      */
-    protected  void onNoNet(String msg){
-       ToastUtil.show(context,msg);
+    protected void onNoNet(String msg) {
+        ToastUtil.show(context, msg);
     }
 
 }

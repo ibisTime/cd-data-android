@@ -30,27 +30,57 @@ public class SystemUtils {
      * @return
      */
     public static String getMacAddress(Context mContext) {
-        String macStr = "";
-        WifiManager wifiManager = (WifiManager) mContext
-                .getSystemService(WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        if (wifiInfo.getMacAddress() != null) {
-            macStr = wifiInfo.getMacAddress();// MAC地址
+
+        if(!getAndroidVersion(Build.VERSION_CODES.M)){  //如果手机是6.0以下
+            String macStr = "";
+            WifiManager wifiManager = (WifiManager) mContext
+                    .getSystemService(WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if (wifiInfo.getMacAddress() != null) {
+                macStr = wifiInfo.getMacAddress();// MAC地址
+            }
+
+            return macStr;
         }
 
-        return macStr;
+
+        String address = null;
+        // 把当前机器上的访问网络接口的存入 Enumeration集合中
+        Enumeration<NetworkInterface> interfaces = null;
+        try {
+            interfaces = NetworkInterface.getNetworkInterfaces();
+            Log.d("TEST_BUG", " interfaceName = " + interfaces );
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface netWork = interfaces.nextElement();
+                // 如果存在硬件地址并可以使用给定的当前权限访问，则返回该硬件地址（通常是 MAC）。
+                byte[] by = netWork.getHardwareAddress();
+                if (by == null || by.length == 0) {
+                    continue;
+                }
+                StringBuilder builder = new StringBuilder();
+                for (byte b : by) {
+                    builder.append(String.format("%02X:", b));
+                }
+                if (builder.length() > 0) {
+                    builder.deleteCharAt(builder.length() - 1);
+                }
+                String mac = builder.toString();
+                Log.d("TEST_BUG", "interfaceName="+netWork.getName()+", mac="+mac);
+                // 从路由器上在线设备的MAC地址列表，可以印证设备Wifi的 name 是 wlan0
+                if (netWork.getName().equals("wlan0")) {
+                    Log.d("TEST_BUG", " interfaceName ="+netWork.getName()+", mac="+mac);
+                    address = mac;
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+        return address;
+
+
     }
 
-    /**
-     * 获取WifiInfo
-     * @param mContext
-     * @return
-     */
-    public static WifiInfo getWifiInfo(Context mContext){
-        WifiManager mWifiManager = (WifiManager)mContext.getSystemService(WIFI_SERVICE);
-        WifiInfo info = mWifiManager.getConnectionInfo();
-        return info;
-    }
 
     /**
      * 获取设备编号
@@ -87,116 +117,15 @@ public class SystemUtils {
         return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
 
-    /**
-     * gps获取ip
-     * @return
-     */
-    public static String getLocalIpAddress()
-    {
-        try
-        {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();)
-            {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();)
-                {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress())
-                    {
-                        return inetAddress.getHostAddress().toString();
-                    }
-                }
-            }
-        }
-        catch (Exception ex) {
 
-        }
-        return null;
-    }
-
-    /**
-     * wifi获取ip
-     * @param context
-     * @return
-     */
-    public static String getIp(Context context){
-        try {
-            //获取wifi服务
-            WifiManager wifiManager = (WifiManager)context. getSystemService(Context.WIFI_SERVICE);
-            //判断wifi是否开启
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            int ipAddress = wifiInfo.getIpAddress();
-            String ip = intToIp(ipAddress);
-            return ip;
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
-
-    /**
-     * 格式化ip地址（192.168.11.1）
-     * @param i
-     * @return
-     */
-    private static String intToIp(int i) {
-
-        return (i & 0xFF ) + "." +
-                ((i >> 8 ) & 0xFF) + "." +
-                ((i >> 16 ) & 0xFF) + "." +
-                ( i >> 24 & 0xFF) ;
-    }
-    /**
-     *  3G/4g网络IP
-     */
-    public static String getIpAddress() {
-        try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface
-                    .getNetworkInterfaces(); en.hasMoreElements();) {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf
-                        .getInetAddresses(); enumIpAddr.hasMoreElements();) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress()
-                            && inetAddress instanceof Inet4Address) {
-                        // if (!inetAddress.isLoopbackAddress() && inetAddress
-                        // instanceof Inet6Address) {
-                        return inetAddress.getHostAddress().toString();
-                    }
-                }
-            }
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
-
-    /**
-     * 获取本机的ip地址（3中方法都包括）
-     * @param context
-     * @return
-     */
-    public static String getOnlyIpAdress(Context context){
-        String ip = null;
-        try {
-            ip=getIp(context);
-            if (ip==null){
-                ip = getIpAddress();
-                LogUtil.E("ip 1");
-                if (ip==null){
-                    LogUtil.E("ip 2");
-                    ip = getLocalIpAddress();
-                }
-            }
-        } catch (Exception e) {
-
-        }
-
-        return ip;
-    }
     public static String getIMEI(Context con) {
-        TelephonyManager tm = (TelephonyManager) con.getSystemService(Context.TELEPHONY_SERVICE);
-        return tm != null ? tm.getDeviceId() : "";
+        try {
+            TelephonyManager tm = (TelephonyManager) con.getSystemService(Context.TELEPHONY_SERVICE);
+            return tm != null ? tm.getDeviceId() : "";
+        }catch (Exception e){
+
+        }
+        return "";
     }
 
     /*判断当前版本是不是大于version*/
@@ -234,11 +163,7 @@ public class SystemUtils {
                                 int index = hostAddress.indexOf('%');
 
                                 String ips=index < 0 ? hostAddress.toUpperCase() : hostAddress.substring(0, index).toUpperCase();
-                                if(StringUtils.isIP(ips)){
-                                    return ips;
-                                }else{
-                                    return "";
-                                }
+                                return ips;
                             }
                         }
                     }

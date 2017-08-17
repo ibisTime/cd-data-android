@@ -64,8 +64,8 @@ public class FraudNumCheckActivity extends BaseIMEIPermissionsActivity{
             map.put("imei",SystemUtils.getIMEI(this));
         }
         map.put("ip", SystemUtils.getIPAddress(true));
-        map.put("mac", SystemUtils.getMacAddress(this));
-        map.put("wifimac", SystemUtils.getWifiInfo(this).getMacAddress());
+//        map.put("mac", SystemUtils.getMacAddress(this));
+        map.put("wifimac",  SystemUtils.getMacAddress(this));
 
 
         showLoadingDialog();
@@ -75,13 +75,18 @@ public class FraudNumCheckActivity extends BaseIMEIPermissionsActivity{
             @Override
             protected void onSuccess(FraudNumCheckModel data, String SucMessage) {
 
-                CertiResultsByDetailsInfoActivity.open(FraudNumCheckActivity.this,true,data);
-
-              /*  if(data.getVerifyCodeList()!=null){
-                    showSimpleWran("列表"+data.getVerifyCodeList().size());
-                }*/
+                CertiResultsByDetailsInfoActivity.open(FraudNumCheckActivity.this,true,data,"结果获取失败，请重试");
             }
 
+            @Override
+            public void onReqFailure(int errorCode, String errorMessage) {
+                CertiResultsByDetailsInfoActivity.open(FraudNumCheckActivity.this,false,null,errorMessage);
+            }
+
+            @Override
+            protected void onBuinessFailure(String code, String error) {
+                CertiResultsByDetailsInfoActivity.open(FraudNumCheckActivity.this,false,null,error);
+            }
 
             @Override
             protected void onNull() {

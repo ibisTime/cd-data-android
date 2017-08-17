@@ -24,6 +24,8 @@ import com.chengdai.cddata.widget.nets.BaseResponseModelCallBack;
 import com.chengdai.cddata.widget.nets.RetrofitUtils;
 import com.chengdai.cddata.widget.utils.LogUtil;
 import com.chengdai.cddata.widget.utils.StringUtils;
+import com.zmxy.ZMCertification;
+import com.zmxy.ZMCertificationListener;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -33,13 +35,15 @@ import java.util.Map;
 import retrofit2.Call;
 
 /**
- * 芝麻认证 （支付宝方式）
+ * 芝麻认证 （SDK方式）
  * Created by 李先俊 on 2017/7/26.
  */
 
-public class ZMCertificationActivity extends AbsBaseActivity  {
+public class ZMCertificationSDKActivity extends AbsBaseActivity implements ZMCertificationListener {
 
     private ActivityCardandnameInfoCheckBinding mBinding;
+
+    private ZMCertification zmCertification;//芝麻认证
 
     private String mBizNum;
 
@@ -53,7 +57,7 @@ public class ZMCertificationActivity extends AbsBaseActivity  {
         if (context == null) {
             return;
         }
-        Intent intent = new Intent(context, ZMCertificationActivity.class);
+        Intent intent = new Intent(context, ZMCertificationSDKActivity.class);
         context.startActivity(intent);
     }
 
@@ -66,12 +70,17 @@ public class ZMCertificationActivity extends AbsBaseActivity  {
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
+        zmCertification = ZMCertification.getInstance();
         setTopTitle("芝麻认证");
 
         setSubLeftImgState(true);
 
         //
         mBinding.butSure.setOnClickListener(v -> {
+   /*         if(TextUtils.isEmpty(mBinding.editPhoneNumber.getText().toString())){
+                showToast("请填写手机号");
+                return;
+            }*/
             if (TextUtils.isEmpty(mBinding.editName.getText().toString())) {
                 showToast("请填写姓名");
                 return;
@@ -112,18 +121,21 @@ public class ZMCertificationActivity extends AbsBaseActivity  {
 
                 if (!data.isIsSuccess()) {
                     mBizNum=data.getBizNo();
-                    doVerify(data.getUrl());
+
+                    zmCertification.startCertification(ZMCertificationSDKActivity.this,data.getBizNo(),data.getMerchantId(),null);
+
+//                    doVerify(data.getUrl());
                 }
             }
             @Override
             public void onReqFailure(int errorCode, String errorMessage) {
-                CertiResultsByNameAndIdCardActivity.open(ZMCertificationActivity.this,false,mBinding.editName.getText().toString()
+                CertiResultsByNameAndIdCardActivity.open(ZMCertificationSDKActivity.this,false,mBinding.editName.getText().toString()
                         ,mBinding.editCardNumber.getText().toString(),"",errorMessage);
             }
 
             @Override
             protected void onBuinessFailure(String code, String error) {
-                CertiResultsByNameAndIdCardActivity.open(ZMCertificationActivity.this,false,mBinding.editName.getText().toString()
+                CertiResultsByNameAndIdCardActivity.open(ZMCertificationSDKActivity.this,false,mBinding.editName.getText().toString()
                         ,mBinding.editCardNumber.getText().toString(),"",error);
             }
 
@@ -189,6 +201,21 @@ public class ZMCertificationActivity extends AbsBaseActivity  {
         return list != null && list.size() > 0;
     }
 
+//芝麻认证回调
+    @Override
+    public void onFinish(boolean isCanceled, boolean isPassed, int errorCode) {
+        zmCertification.setZMCertificationListener(null);
+        if (isCanceled)
+            Toast.makeText(this, "cancel : 芝麻验证失败，原因是：" , Toast.LENGTH_SHORT).show();
+        else {
+            if (isPassed)
+                Toast.makeText(this, "complete : 芝麻验证成功，原因是：", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "complete : 芝麻验证失败，原因是：", Toast.LENGTH_SHORT).show();
+        }
+        Log.w("ceshi", "onFinish+++ isPassed = " + isPassed + ", error = " + errorCode);
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -228,19 +255,19 @@ public class ZMCertificationActivity extends AbsBaseActivity  {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                CertiResultsByNameAndIdCardActivity.open(ZMCertificationActivity.this,data.isSuccess(),mBinding.editName.getText().toString()
+                CertiResultsByNameAndIdCardActivity.open(ZMCertificationSDKActivity.this,data.isSuccess(),mBinding.editName.getText().toString()
                         ,mBinding.editCardNumber.getText().toString(),"","");
             }
 
             @Override
             public void onReqFailure(int errorCode, String errorMessage) {
-                CertiResultsByNameAndIdCardActivity.open(ZMCertificationActivity.this,false,mBinding.editName.getText().toString()
+                CertiResultsByNameAndIdCardActivity.open(ZMCertificationSDKActivity.this,false,mBinding.editName.getText().toString()
                         ,mBinding.editCardNumber.getText().toString(),"",errorMessage);
             }
 
             @Override
             protected void onBuinessFailure(String code, String error) {
-                CertiResultsByNameAndIdCardActivity.open(ZMCertificationActivity.this,false,mBinding.editName.getText().toString()
+                CertiResultsByNameAndIdCardActivity.open(ZMCertificationSDKActivity.this,false,mBinding.editName.getText().toString()
                         ,mBinding.editCardNumber.getText().toString(),"",error);
             }
 

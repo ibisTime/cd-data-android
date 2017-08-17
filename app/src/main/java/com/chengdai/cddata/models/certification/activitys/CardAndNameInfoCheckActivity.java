@@ -81,7 +81,7 @@ public class CardAndNameInfoCheckActivity extends AbsBaseActivity {
     }
 
     /**
-     *认证请求
+     * 认证请求
      */
     private void checkRequest() {
         Map<String, String> map = new HashMap<>();
@@ -99,12 +99,20 @@ public class CardAndNameInfoCheckActivity extends AbsBaseActivity {
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
-   /*             if(data.isSuccess()){
-                    showSimpleWran("认证成功");
-                }else{
-                    showSimpleWran("认证失败");
-                }*/
-                CertiResultsByNameAndIdCardActivity.open(CardAndNameInfoCheckActivity.this,data.isSuccess(), mBinding.editName.getText().toString(), mBinding.editCardNumber.getText().toString(),"");
+                CertiResultsByNameAndIdCardActivity.open(CardAndNameInfoCheckActivity.this, data.isSuccess(),
+                        mBinding.editName.getText().toString(), mBinding.editCardNumber.getText().toString(), "", "");
+            }
+
+            @Override
+            protected void onBuinessFailure(String code, String error) {
+                CertiResultsByNameAndIdCardActivity.open(CardAndNameInfoCheckActivity.this, false, mBinding.editName.getText().toString(),
+                        mBinding.editCardNumber.getText().toString(), "", error);
+            }
+
+            @Override
+            public void onReqFailure(int errorCode, String errorMessage) {
+                CertiResultsByNameAndIdCardActivity.open(CardAndNameInfoCheckActivity.this, false, mBinding.editName.getText().toString(),
+                        mBinding.editCardNumber.getText().toString(), "", errorMessage);
             }
 
             @Override

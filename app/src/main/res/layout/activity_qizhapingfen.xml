@@ -165,7 +165,6 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:hint="请输入邮箱"
-                    android:inputType="phone"
                     android:textColor="#333333"
                     android:textColorHint="@color/text_hint_color"
                     android:textSize="15sp" />

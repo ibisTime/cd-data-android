@@ -38,7 +38,7 @@ public abstract class BaseIMEIPermissionsActivity extends AbsBaseActivity{
     protected String mProvince;
     protected String mCity;
     protected String mDistrict;
-    protected boolean isgetPermissions=true;
+    protected boolean isgetPermissions=false;
 
     /**
      * 打开当前页面
@@ -151,15 +151,14 @@ public abstract class BaseIMEIPermissionsActivity extends AbsBaseActivity{
     private void PermissionCheck(int requestcode) {
         if (SystemUtils.getAndroidVersion(Build.VERSION_CODES.M))  //如果运行环境是6.0
         {
-            isgetPermissions=false;
-
-            //判断是否有相机权限
             if (ContextCompat.checkSelfPermission(BaseIMEIPermissionsActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ) //没有权限
             {
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE}, requestcode);
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE}, requestcode);
             }else {
                 isgetPermissions=true;
             }
+        }else{
+            isgetPermissions=true;
         }
     }
 
@@ -176,6 +175,7 @@ public abstract class BaseIMEIPermissionsActivity extends AbsBaseActivity{
                 break;
             }
         }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 

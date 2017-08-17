@@ -13,6 +13,8 @@ import com.chengdai.cddata.R;
 import com.chengdai.cddata.base.AbsBaseActivity;
 import com.chengdai.cddata.base.BasePermissionsCheckActivity;
 import com.chengdai.cddata.databinding.ActivityCardandnameInfoCheckBinding;
+import com.chengdai.cddata.models.api.BaseResponseModel;
+import com.chengdai.cddata.models.certesults.CertiResultsByIndustryFocusOnActivity;
 import com.chengdai.cddata.models.certification.models.IndustryFocusOnModel;
 import com.chengdai.cddata.models.certification.models.UserQueryInfoModel;
 import com.chengdai.cddata.widget.configs.MyConfig;
@@ -49,7 +51,7 @@ public class IndustryFocusOnActivity extends BasePermissionsCheckActivity {
     @Override
     public void afterCreate(Bundle savedInstanceState) {
         super.afterCreate(savedInstanceState);
-        setTopTitle("芝麻信用评分");
+        setTopTitle("行业关注名单");
     }
 
     @Override
@@ -62,18 +64,27 @@ public class IndustryFocusOnActivity extends BasePermissionsCheckActivity {
         map.put("idNo",mBinding.editCardNumber .getText().toString());
 
         showLoadingDialog();
-        Call call = RetrofitUtils.getLoaderServer().IndustryFocusOnInfoQuery("798015", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.getLoaderServer().IndustryFocusOnInfoQuery("798016", StringUtils.getJsonToString(map));
         addCall(call);
         call.enqueue(new BaseResponseModelCallBack<IndustryFocusOnModel>(this) {
             @Override
             protected void onSuccess(IndustryFocusOnModel data, String SucMessage) {
                 if(data.isAuthorized()){
-                    showSimpleWran("已授权");
+                    CertiResultsByIndustryFocusOnActivity.open(IndustryFocusOnActivity.this,data,"信息获取失败，请重新认证");
                 }else{
                     creditApp.authenticate(IndustryFocusOnActivity.this, data.getAppId(), null,data.getParam(), data.getSignature(), null,IndustryFocusOnActivity.this);
                 }
             }
 
+            @Override
+            public void onReqFailure(int errorCode, String errorMessage) {
+                CertiResultsByIndustryFocusOnActivity.open(IndustryFocusOnActivity.this,null,errorMessage);
+            }
+
+            @Override
+            protected void onBuinessFailure(String code,String error) {
+                CertiResultsByIndustryFocusOnActivity.open(IndustryFocusOnActivity.this,null,error);
+            }
 
             @Override
             protected void onNull() {

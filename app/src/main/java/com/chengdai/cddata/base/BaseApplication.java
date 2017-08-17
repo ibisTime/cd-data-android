@@ -2,6 +2,10 @@ package com.chengdai.cddata.base;
 
 import android.app.Application;
 
+import com.chengdai.cddata.widget.utils.LogUtil;
+
+import org.greenrobot.eventbus.EventBus;
+
 
 /**
  * 基础Application
@@ -14,7 +18,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        EventBus.builder().throwSubscriberException(BuildConfig.IS_DEBUG).installDefaultEventBus();
+        EventBus.builder().throwSubscriberException(LogUtil.isLog).installDefaultEventBus();
         application=this;
     }
 

@@ -21,6 +21,7 @@ import com.chengdai.cddata.models.certification.activitys.FraudNumCheckActivity;
 import com.chengdai.cddata.models.certification.activitys.GetFraudNumActivity;
 import com.chengdai.cddata.models.certification.activitys.IndustryFocusOnActivity;
 import com.chengdai.cddata.models.certification.activitys.ZMCertificationActivity;
+import com.chengdai.cddata.models.certification.activitys.ZMCertificationSDKActivity;
 import com.chengdai.cddata.models.certification.activitys.ZMNumGet2Activity;
 import com.chengdai.cddata.models.certification.activitys.ZMNumGetActivity;
 import com.chengdai.cddata.widget.utils.LogUtil;
@@ -64,7 +65,8 @@ public class FirstDataFragment extends BaseFragment {
 
         //芝麻认证
         mBinding.layoutZmcertification.setOnClickListener(v -> {//完成
-            ZMCertificationActivity.open(mActivity);
+//            ZMCertificationActivity.open(mActivity);
+            ZMCertificationSDKActivity.open(mActivity);
         });
 
         //芝麻分获取

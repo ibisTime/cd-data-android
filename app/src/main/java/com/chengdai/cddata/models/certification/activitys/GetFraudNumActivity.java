@@ -73,8 +73,8 @@ public class GetFraudNumActivity extends BaseIMEIPermissionsActivity{
             map.put("imei",SystemUtils.getIMEI(this));
         }
         map.put("ip", SystemUtils.getIPAddress(true));
-        map.put("mac", SystemUtils.getMacAddress(this));
-        map.put("wifimac", SystemUtils.getWifiInfo(this).getMacAddress());
+//        map.put("mac", SystemUtils.getMacAddress(this));
+        map.put("wifimac",  SystemUtils.getMacAddress(this));
 
 
         showLoadingDialog();
@@ -83,12 +83,21 @@ public class GetFraudNumActivity extends BaseIMEIPermissionsActivity{
         call.enqueue(new BaseResponseModelCallBack<GetFraudNumModel>(this) {
             @Override
             protected void onSuccess(GetFraudNumModel data, String SucMessage) {
-//                showSimpleWran("欺诈评分"+data.getScore());
-
-                CertiResultsByQizhaPingFenActivity.open(GetFraudNumActivity.this,true,mbinding.edtName.getText().toString(),mbinding.editIdcard.getText().toString(),data.getScore());
-
+                CertiResultsByQizhaPingFenActivity.open(GetFraudNumActivity.this,true,mbinding.edtName.getText().toString(),
+                        mbinding.editIdcard.getText().toString(),data.getScore(),"");
             }
 
+            @Override
+            public void onReqFailure(int errorCode, String errorMessage) {
+                CertiResultsByQizhaPingFenActivity.open(GetFraudNumActivity.this,false,mbinding.edtName.getText().toString(),
+                        mbinding.editIdcard.getText().toString(),"",errorMessage);
+            }
+
+            @Override
+            protected void onBuinessFailure(String code, String error) {
+                CertiResultsByQizhaPingFenActivity.open(GetFraudNumActivity.this,false,mbinding.edtName.getText().toString(),
+                        mbinding.editIdcard.getText().toString(),"",error);
+            }
 
             @Override
             protected void onNull() {

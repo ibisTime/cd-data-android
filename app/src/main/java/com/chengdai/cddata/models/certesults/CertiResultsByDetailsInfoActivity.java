@@ -12,11 +12,12 @@ import com.chengdai.cddata.databinding.ActivityDetailsInfoResultsBinding;
 import com.chengdai.cddata.databinding.ActivityQizhapingfenCertResultsBinding;
 import com.chengdai.cddata.models.certification.models.FraudNumCheckModel;
 
-/**详细信息认证结果
+/**
+ * 详细信息认证结果
  * Created by 李先俊 on 2017/7/28.
  */
 
-public class CertiResultsByDetailsInfoActivity extends AbsBaseActivity{
+public class CertiResultsByDetailsInfoActivity extends AbsBaseActivity {
 
     private ActivityDetailsInfoResultsBinding mBinding;
 
@@ -27,22 +28,22 @@ public class CertiResultsByDetailsInfoActivity extends AbsBaseActivity{
      *
      * @param context
      */
-    public static void open(Context context, boolean issuccessful, FraudNumCheckModel data) {
+    public static void open(Context context, boolean issuccessful, FraudNumCheckModel data, String info) {
         if (context == null) {
             return;
         }
         Intent intent = new Intent(context, CertiResultsByDetailsInfoActivity.class);
 
-          intent.putExtra("issuccessful",issuccessful);
-          intent.putExtra("data",data);
+        intent.putExtra("issuccessful", issuccessful);
+        intent.putExtra("data", data);
+        intent.putExtra("info", info);
         context.startActivity(intent);
     }
 
 
-
     @Override
     public View addMainView() {
-        mBinding= DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_details_info_results,null,false);
+        mBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_details_info_results, null, false);
         return mBinding.getRoot();
     }
 
@@ -53,36 +54,32 @@ public class CertiResultsByDetailsInfoActivity extends AbsBaseActivity{
 
         setSubLeftImgState(true);
 
-        if(getIntent()!=null){
+        if (getIntent() == null) {
+            showFailure("结果获取失败,请重试");
+            return;
+        }
 
-            mData=getIntent().getParcelableExtra("data");
+        mData = getIntent().getParcelableExtra("data");
 
-            if(getIntent().getBooleanExtra("issuccessful",true)){
-                mBinding.tipslayout.imgTips.setImageResource(R.mipmap.successful);
-                mBinding.tipslayout.tvTips.setText("认证成功");
-                mBinding.tvSuccess.setVisibility(View.VISIBLE);
+        if (getIntent().getBooleanExtra("issuccessful", false)) {
+            mBinding.tipslayout.imgTips.setImageResource(R.mipmap.successful);
+            mBinding.tipslayout.tvTips.setText(R.string.txt_success);
+            mBinding.tvSuccess.setVisibility(View.VISIBLE);
 
-                if(mData!=null){
+            if (mData != null && mData.getVerifyInfoList()!=null) {
 
-                    StringBuffer sb=new StringBuffer();
+                StringBuffer sb = new StringBuffer();
 
-                    for(String s:mData.getVerifyInfoList()){
-                        sb.append(s);
-                        sb.append("\n\n");
-                    }
-                    mBinding.tvSuccess.setText(sb.toString());
+                for (String s : mData.getVerifyInfoList()) {
+                    sb.append(s);
+                    sb.append("\n\n");
                 }
+                mBinding.tvSuccess.setText(sb.toString());
+            }
 
 
-            }else{
-                mBinding.tipslayout.imgTips.setImageResource(R.mipmap.failure);
-                mBinding.tipslayout.tvTips.setText("认证失败");
-                mBinding.layoutFail.setVisibility(View.VISIBLE);
-
-
-                if(mData!=null){
-
-                }
+        } else {
+            showFailure(getIntent().getStringExtra("info"));
 
           /*      mBinding.tvName.setText(getIntent().getStringExtra("name"));
                 mBinding.tvIdcard.setText(getIntent().getStringExtra("idCard"));
@@ -90,10 +87,14 @@ public class CertiResultsByDetailsInfoActivity extends AbsBaseActivity{
 */
 
 
-            }
-
         }
 
+}
 
+    private void showFailure(String text) {
+        mBinding.tipslayout.imgTips.setImageResource(R.mipmap.failure);
+        mBinding.tipslayout.tvTips.setText(R.string.txt_failure);
+        mBinding.tvSuccess.setVisibility(View.VISIBLE);
+        mBinding.tvSuccess.setText(text);
     }
 }

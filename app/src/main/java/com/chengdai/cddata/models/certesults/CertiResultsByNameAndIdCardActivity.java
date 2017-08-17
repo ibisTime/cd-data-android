@@ -25,7 +25,7 @@ public class CertiResultsByNameAndIdCardActivity extends AbsBaseActivity{
      *
      * @param context
      */
-    public static void open(Context context,boolean issuccessful,String name,String idCard,String zmScore) {
+    public static void open(Context context,boolean issuccessful,String name,String idCard,String zmScore,String info) {
         if (context == null) {
             return;
         }
@@ -35,6 +35,7 @@ public class CertiResultsByNameAndIdCardActivity extends AbsBaseActivity{
           intent.putExtra("name",name);
           intent.putExtra("idCard",idCard);
           intent.putExtra("zmScore",zmScore);
+          intent.putExtra("info",info);
         context.startActivity(intent);
     }
 
@@ -55,12 +56,15 @@ public class CertiResultsByNameAndIdCardActivity extends AbsBaseActivity{
 
         if(getIntent()!=null){
 
-            if(getIntent().getBooleanExtra("issuccessful",true)){
+            if(getIntent().getBooleanExtra("issuccessful",false)){
                 mBinding.tipslayout.imgTips.setImageResource(R.mipmap.successful);
-                mBinding.tipslayout.tvTips.setText("认证成功");
+                mBinding.tipslayout.tvTips.setText(R.string.txt_success);
             }else{
                 mBinding.tipslayout.imgTips.setImageResource(R.mipmap.failure);
-                mBinding.tipslayout.tvTips.setText("认证失败");
+                mBinding.tipslayout.tvTips.setText(R.string.txt_failure);
+                mBinding.tvInfo.setVisibility(View.VISIBLE);
+                mBinding.tvInfo.setText(getIntent().getStringExtra("info"));
+
             }
 
             mBinding.tvName.setText(getIntent().getStringExtra("name"));

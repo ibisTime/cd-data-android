@@ -2,25 +2,16 @@ package com.chengdai.cddata.models.certification.activitys;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
 
-import com.chengdai.cddata.R;
-import com.chengdai.cddata.base.AbsBaseActivity;
 import com.chengdai.cddata.base.BaseIMEIPermissionsActivity;
-import com.chengdai.cddata.databinding.ActivityQizhapingfenBinding;
 import com.chengdai.cddata.models.certesults.CertiResultsByDetailsInfo2Activity;
 import com.chengdai.cddata.models.certification.models.FraudLookModel;
-import com.chengdai.cddata.models.certification.models.FraudNumCheckModel;
 import com.chengdai.cddata.widget.configs.MyConfig;
 import com.chengdai.cddata.widget.nets.BaseResponseModelCallBack;
 import com.chengdai.cddata.widget.nets.RetrofitUtils;
 import com.chengdai.cddata.widget.utils.StringUtils;
 import com.chengdai.cddata.widget.utils.SystemUtils;
-import com.lljjcoder.citypickerview.widget.CityPicker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,8 +61,10 @@ public class FraudLookListActivity extends BaseIMEIPermissionsActivity{
             map.put("imei",SystemUtils.getIMEI(this));
         }
         map.put("ip", SystemUtils.getIPAddress(true));
-        map.put("mac", SystemUtils.getMacAddress(this));
-        map.put("wifimac", SystemUtils.getWifiInfo(this).getMacAddress());
+
+//        map.put("mac", SystemUtils.getMacAddress(this));
+
+        map.put("wifimac", SystemUtils.getMacAddress(this));
 
 
         showLoadingDialog();
@@ -80,13 +73,17 @@ public class FraudLookListActivity extends BaseIMEIPermissionsActivity{
         call.enqueue(new BaseResponseModelCallBack<FraudLookModel>(this) {
             @Override
             protected void onSuccess(FraudLookModel data, String SucMessage) {
+                CertiResultsByDetailsInfo2Activity.open(FraudLookListActivity.this,true,data,"结果获取失败，请重试。");
+            }
 
-                CertiResultsByDetailsInfo2Activity.open(FraudLookListActivity.this,true,data);
+            @Override
+            public void onReqFailure(int errorCode, String errorMessage) {
+                CertiResultsByDetailsInfo2Activity.open(FraudLookListActivity.this,false,null,errorMessage);
+            }
 
-//                showSimpleWran("是否欺诈关注"+data.getHit());
-               /* if(data.getRiskCodeList()!=null){
-                    showSimpleWran("列表"+data.getRiskCodeList().size());
-                }*/
+            @Override
+            protected void onBuinessFailure(String code,String error) {
+                CertiResultsByDetailsInfo2Activity.open(FraudLookListActivity.this,false,null,error);
             }
 
             @Override

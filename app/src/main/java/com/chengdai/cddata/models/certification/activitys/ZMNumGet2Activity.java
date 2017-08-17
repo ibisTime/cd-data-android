@@ -64,16 +64,24 @@ public class ZMNumGet2Activity extends BasePermissionsCheckActivity{
             @Override
             protected void onSuccess(UserQueryInfoModel data, String SucMessage) {
                 if(data.isAuthorized()){
-//                    showSimpleWran("芝麻信用分是："+data.getZmScore()+"分");
-
                     CertiResultsByNameAndIdCardActivity.open(ZMNumGet2Activity.this,true,mBinding.editName.getText().toString(),
-                            mBinding.editCardNumber.getText().toString(),data.getZmScore());
-
+                            mBinding.editCardNumber.getText().toString(),data.getZmScore(),"");
                 }else{
                     creditApp.authenticate(ZMNumGet2Activity.this, data.getAppId(), null,data.getParam(), data.getSignature(), null,ZMNumGet2Activity.this);
                 }
             }
 
+            @Override
+            public void onReqFailure(int errorCode, String errorMessage) {
+                CertiResultsByNameAndIdCardActivity.open(ZMNumGet2Activity.this,false,mBinding.editName.getText().toString(),
+                        mBinding.editCardNumber.getText().toString(),"",errorMessage);
+            }
+
+            @Override
+            protected void onBuinessFailure(String code, String error) {
+                CertiResultsByNameAndIdCardActivity.open(ZMNumGet2Activity.this,false,mBinding.editName.getText().toString(),
+                        mBinding.editCardNumber.getText().toString(),"",error);
+            }
 
             @Override
             protected void onNull() {

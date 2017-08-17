@@ -72,10 +72,12 @@ public class FourInfoCheckActivity extends AbsBaseActivity {
                 return;
             }
 
+/*
             if(TextUtils.isEmpty(mBinding.editPhoneNumber.getText().toString())){
                 showToast("请填写手机号");
                 return;
             }
+*/
 
             if (TextUtils.isEmpty(mBinding.editBankNumber.getText().toString())) {
 
@@ -111,9 +113,20 @@ public class FourInfoCheckActivity extends AbsBaseActivity {
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
 
                 CertiResultsByFourActivity.open(FourInfoCheckActivity.this, data.isSuccess(), mBinding.editName.getText().toString()
-                , mBinding.editCardNumber.getText().toString(), mBinding.editPhoneNumber.getText().toString(), mBinding.editBankNumber.getText().toString());
+                , mBinding.editCardNumber.getText().toString(), mBinding.editPhoneNumber.getText().toString(), mBinding.editBankNumber.getText().toString(),"");
+            }
 
-//                 showSimpleWran(SucMessage);
+            @Override
+            public void onReqFailure(int errorCode, String errorMessage) {
+
+                CertiResultsByFourActivity.open(FourInfoCheckActivity.this, false, mBinding.editName.getText().toString()
+                        , mBinding.editCardNumber.getText().toString(), mBinding.editPhoneNumber.getText().toString(), mBinding.editBankNumber.getText().toString(),errorMessage);
+            }
+
+            @Override
+            protected void onBuinessFailure(String code, String error) {
+                CertiResultsByFourActivity.open(FourInfoCheckActivity.this, false, mBinding.editName.getText().toString()
+                        , mBinding.editCardNumber.getText().toString(), mBinding.editPhoneNumber.getText().toString(), mBinding.editBankNumber.getText().toString(),error);
             }
 
             @Override
